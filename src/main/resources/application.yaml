@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: bgll_hospital
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: ${mysql.driver-class-name}
+    url: ${mysql.url}
+    username: ${mysql.username}
+    password: ${mysql.password}
+  data:
+    redis:
+      host: ${redis.host}
+      port: ${redis.port}
+      password: ${redis.password}
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.cug.domain.pojo
+bgll:
+  sms:
+    url: https://dfsns.market.alicloudapi.com/data/send_sms
+    templateId: CST_ptdie100
+    appcode: 47e81cd7efb34a8fb8c9a8af97ba5f09
+
+  jwt:
+    user:
+      name: Authorization
+      secret: bgll_hospital2026cugadmin=xjsn17ahabxk1
+      expiration: 8640000
