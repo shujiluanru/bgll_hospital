@@ -13,6 +13,8 @@ public class SmsProperty {
     private String appcode;
     @Value("${bgll.sms.templateId}")
     private String templateId;
-    @Value("${bgll.sms.url}")
-    private String url;
+    @Value("${bgll.sms.host}")
+    private String host;
+    @Value("${bgll.sms.path}")
+    private String path;
 }
