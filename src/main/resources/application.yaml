@@ -13,6 +13,18 @@ spring:
       host: ${redis.host}
       port: ${redis.port}
       password: ${redis.password}
+  ai:
+    openai:
+      api-key: ${openai.api-key}
+      base-url: ${openai.base-url}
+      chat:
+        options:
+          model: ${openai.chat.model}
+          temperature: ${openai.chat.temperature}
+      embedding:
+        options:
+          model: ${openai.embedding.model}
+          dimensions: ${openai.embedding.dimensions}
 server:
   address: 0.0.0.0
 mybatis:
@@ -20,13 +32,20 @@ mybatis:
   type-aliases-package: com.cug.domain.pojo
 bgll:
   sms:
-    host: https://dfsns.market.alicloudapi.com
-    path: /data/send_sms
-    templateId: CST_ptdie100
-    appcode: 47e81cd7efb34a8fb8c9a8af97ba5f09
+    host: ${sms.host}
+    path: ${sms.path}
+    templateId: ${sms.templateId}
+    appcode: ${sms.appcode}
 
   jwt:
     user:
-      name: Authorization
-      secret: bgll_hospital2026cugadmin=xjsn17ahabxk1bgll_hospital2026cugadmin=xjsn17ahabxk1
-      expiration: 8640000
+      name: ${jwt.user.name}
+      secret: ${jwt.user.secret}
+      expiration: ${jwt.user.expiration}
+  ai:
+    rag:
+      pdf:
+        introduction:
+          path: ${rag.pdf.introduction.path}
+        category:
+          path: ${rag.pdf.category.path}

@@ -92,6 +92,9 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     @Override
     public R sendSmsCode(String phone) {
+        String s = stringRedisTemplate.opsForValue().get(SmsCacheConstant.SEND_SMS_CODE_USER + phone);
+        if(s!=null)
+            throw new ParamException("请勿重复发送验证码");
         String code= SmsUtil.generateCode();
         try {
             SmsUtil.getSmsCode(phone, smsProperty.getHost(), smsProperty.getPath(), smsProperty.getAppcode(), smsProperty.getTemplateId(), code);
@@ -104,6 +107,7 @@ public class UserAuthServiceImpl implements UserAuthService {
     }
 
     @Override
+    @BgllLog
     public R register(UserRegisterDTO userRegisterDTO) {
         userAuthMapper.getUserByPhone(userRegisterDTO.getPhone());
         if(userAuthMapper.getUserByPhone(userRegisterDTO.getPhone())!=null)
