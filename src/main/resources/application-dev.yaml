@@ -40,11 +40,7 @@ bgll:
       name: Authorization
       secret: bgll_hospital2026cugadmin=xjsn17ahabxk1bgll_hospital2026cugadmin=xjsn17ahabxk1
       expiration: 8640000
-  ai:
-    rag:
-      pdf:
-        introduction:
-          path: C:/Users/ZhuanZ/Desktop/bg_hospital_introduction.pdf
-        category:
-          path: C:/Users/ZhuanZ/Desktop/bg_hospital_category.pdf
-
+    doctor:
+      name: Authorization
+      secret: bgll_hospital2026cugadmin=xjsn17ahabxk1bgll_hospital2026cugadmin=xjsn17ahabxk1
+      expiration: 4320000

@@ -1,37 +1,40 @@
 package com.cug.interceptor;
 
+import com.cug.context.DoctorContext;
 import com.cug.context.UserContext;
 import com.cug.exception.ValidationException;
-import com.cug.properties.JwtUserProperty;
+import com.cug.properties.JwtDoctorProperty;
 import com.cug.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
+import io.netty.util.Recycler;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
-public class UserInterceptor implements HandlerInterceptor {
-    private final JwtUserProperty jwtUserProperty;
-    @Autowired
-    public UserInterceptor(JwtUserProperty jwtUserProperty) {
-        this.jwtUserProperty = jwtUserProperty;
+@Slf4j
+public class DoctorInterceptor implements HandlerInterceptor {
+    private final JwtDoctorProperty jwtDoctorProperty;
+    public DoctorInterceptor(JwtDoctorProperty jwtDoctorProperty) {
+        this.jwtDoctorProperty = jwtDoctorProperty;
     }
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //从请求头获取 token
-        String[]splits = request.getHeader(jwtUserProperty.getName()).split(" ");
+        String[]splits = request.getHeader(jwtDoctorProperty.getName()).split(" ");
         String token = splits[1];
+        log.info("拦截请求DoctorInterceptor");
         if (token == null) {
             throw new ValidationException("");
         }
         try {
-            Claims claims = JwtUtil.parseToken(token, jwtUserProperty.getSecret());
+            Claims claims = JwtUtil.parseToken(token, jwtDoctorProperty.getSecret());
             Object id = claims.get("id");
             //转Long存入threadlocal
-            UserContext.setUserId(Long.parseLong(id.toString()));
+            DoctorContext.setDoctorId(Long.parseLong(id.toString()));
         } catch (Exception e) {
             throw new ValidationException("");
         }
@@ -40,6 +43,6 @@ public class UserInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
-        UserContext.removeUserId();
+        DoctorContext.removeDoctorId();
     }
 }

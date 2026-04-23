@@ -39,7 +39,11 @@ public class ChatServiceImpl implements ChatService {
         String conversationId = userChatMapper.getConversationId(userId);
         // 2. 校验 conversationId 是否存在
         if (conversationId == null || conversationId.isEmpty()) {
-            return R.ok(List.of());  // 没有会话记录，返回空列表
+            //没有对话记录，给用户创建一个conversationID
+            conversationId = "conversation_" + userId;
+            userChatMapper.insertChatIdForUser(conversationId,userId);
+            chatMemoryRepository.saveAll(conversationId, List.of(new AssistantMessage(AIConstant.AI_INITIAL_MESSAGE)));
+            return R.ok(List.of(List.of(new AIMessageVO("assistant", AIConstant.AI_INITIAL_MESSAGE, System.currentTimeMillis()))));  // 没有会话记录，返回空列表
         }
         // 3. 查询消息历史
         List<Message> messages = chatMemoryRepository.findByConversationId(conversationId);
@@ -55,10 +59,6 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public R chat(UserChatDTO userChatDTO) {
         String conversationId = userChatMapper.getConversationId(userChatDTO.getUserId());
-        if (conversationId == null || conversationId.isEmpty()) {
-            conversationId = "conversation_" + userChatDTO.getUserId();
-            userChatMapper.insertChatIdForUser(conversationId,userChatDTO.getUserId());
-        }
         final String finalConversationId=conversationId;
         //交给LLM处理
         String content = chatClient.prompt()

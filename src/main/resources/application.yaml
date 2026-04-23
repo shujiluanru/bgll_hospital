@@ -42,10 +42,7 @@ bgll:
       name: ${jwt.user.name}
       secret: ${jwt.user.secret}
       expiration: ${jwt.user.expiration}
-  ai:
-    rag:
-      pdf:
-        introduction:
-          path: ${rag.pdf.introduction.path}
-        category:
-          path: ${rag.pdf.category.path}
+    doctor:
+      name: ${jwt.doctor.name}
+      secret: ${jwt.doctor.secret}
+      expiration: ${jwt.doctor.expiration}
