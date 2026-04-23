@@ -18,12 +18,15 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(userInterceptor)
                 .addPathPatterns("/user/api")
+                .addPathPatterns("/user/api/common/*")
+                .addPathPatterns("/user/api/ai/chat")
+                .addPathPatterns("/user/api/ai/chat/*")
                 .excludePathPatterns("/user/api/login/*",
                         "/user/api/register",
-                        "/user/api/send-code",
-                        "/user/api/ai/chat/*");
+                        "/user/api/send-code");
         registry.addInterceptor(doctorInterceptor)
                 .addPathPatterns("/doctor/api")
+                .addPathPatterns("/doctor/api/common/*")
                 .excludePathPatterns("/doctor/api/login");
     }
 }

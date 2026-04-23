@@ -3,10 +3,7 @@ package com.cug.config;
 import com.cug.constant.AuthConstant;
 import com.cug.constant.CommonConstant;
 import com.cug.domain.pojo.R;
-import com.cug.exception.ParamException;
-import com.cug.exception.ResourceNotFoundException;
-import com.cug.exception.SmsException;
-import com.cug.exception.ValidationException;
+import com.cug.exception.*;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -23,6 +20,10 @@ public class GlobalExceptionHandler{
     @ExceptionHandler(ResourceNotFoundException.class)
     public R handleResourceNotFoundException(ResourceNotFoundException e) {
         return new R("404", e.getMessage(),null);
+    }
+    @ExceptionHandler(ServerException.class)
+    public R handleServerException(ServerException e) {
+        return new R("500", e.getMessage(),null);
     }
     @ExceptionHandler(ParamException.class)
     public R handleParamException(ParamException e) {

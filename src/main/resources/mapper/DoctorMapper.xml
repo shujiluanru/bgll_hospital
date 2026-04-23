@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cug.mapper.DoctorMapper">
+    <update id="updateDescription">
+        update doctor set description = #{description} where id = #{id}
+    </update>
+    <update id="release">
+        update doctor set reservation_resource = reservation_resource + #{releaseNum} where id = #{doctorId}
+    </update>
+    <select id="getReleaseLog" resultType="com.cug.domain.pojo.ReleaseLog">
+        select * from release_log where doctor_id = #{doctorId}
+    </select>
+    <select id="getResourceNum" resultType="com.cug.domain.pojo.ReservationResourceData">
+        select id as doctor_id,reservation_resource from doctor
+    </select>
+
+</mapper>

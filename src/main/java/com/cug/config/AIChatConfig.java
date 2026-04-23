@@ -20,6 +20,7 @@ import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -35,6 +36,7 @@ public class AIChatConfig {
     @Value("${spring.ai.openai.base-url}")
     private String baseUrl;
     @Bean
+    @Lazy
     public ChatClient chatClient(OpenAiChatModel openAiChatModel,VectorStore vectorStore)
     {
         QuestionAnswerAdvisor build = QuestionAnswerAdvisor.builder(vectorStore)
@@ -52,6 +54,7 @@ public class AIChatConfig {
      * @return
      */
     @Bean
+    @Lazy
     public ChatMemory chatMemory(CustomJdbcChatMemoryRepository repository)
     {
         return MessageWindowChatMemory.builder()
@@ -65,6 +68,7 @@ public class AIChatConfig {
      * @return
      */
     @Bean
+    @Lazy
     public OpenAiApi openAiApi() {
         // 1. 创建 RequestFactory 并设置超时（关键修正）
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
@@ -88,6 +92,7 @@ public class AIChatConfig {
     * */
 
     @Bean
+    @Lazy
     public OpenAiChatModel openAiChatModel(OpenAiApi openAiApi,
                                            @Value("${spring.ai.openai.chat.options.model}") String model,
                                            @Value("${spring.ai.openai.chat.options.temperature}") Double temperature) {
@@ -105,6 +110,7 @@ public class AIChatConfig {
     *
     * */
     @Bean
+    @Lazy
     public VectorStore vectorStore(OpenAiEmbeddingModel openAiEmbeddingModel) {
         SimpleVectorStore vectorStore = SimpleVectorStore.builder(openAiEmbeddingModel).build();
         //将文件添加到向量库中

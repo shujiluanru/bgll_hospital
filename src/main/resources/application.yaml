@@ -13,6 +13,11 @@ spring:
       host: ${redis.host}
       port: ${redis.port}
       password: ${redis.password}
+  rabbitmq:
+    password: ${rabbitmq.password}
+    username: ${rabbitmq.username}
+    host: ${rabbitmq.host}
+    port: ${rabbitmq.port}
   ai:
     openai:
       api-key: ${openai.api-key}
@@ -30,6 +35,9 @@ server:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.cug.domain.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+
 bgll:
   sms:
     host: ${sms.host}
