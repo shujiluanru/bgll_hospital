@@ -1,5 +1,7 @@
 package com.cug.mapper;
 
+import com.cug.domain.pojo.Doctor;
+import com.cug.domain.pojo.ReleaseMessage;
 import com.cug.domain.pojo.ReservationResourceData;
 import org.apache.ibatis.annotations.Mapper;
 import com.cug.domain.pojo.ReleaseLog;
@@ -15,4 +17,7 @@ public interface DoctorMapper {
     List<ReservationResourceData> getResourceNum();
 
     void release(Long doctorId, int releaseNum);
+    void addReleaseLog(ReleaseMessage releaseMessage);
+
+    List<Doctor> getDoctorList();
 }

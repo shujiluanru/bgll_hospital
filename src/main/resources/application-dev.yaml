@@ -16,6 +16,17 @@ spring:
     port: 5672
     username: guest
     password: guest
+    publisher-confirm-type: correlated  # 开启确认机制
+    publisher-returns: true              # 开启消息返回
+    template:
+      mandatory: true                    # 启用强制消息投递
+    listener:
+      simple:
+        acknowledge-mode: auto  # 自动确认模式
+        retry:
+          enabled: true         # 开启重试（可选）
+          max-attempts: 3       # 最大重试次数
+          initial-interval: 1000
   ai:
     openai:
       api-key: sk-69194c8dba12467e811c86ab48442574

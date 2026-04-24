@@ -11,4 +11,5 @@ public class ReleaseMessage {
     private Integer releaseNum;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime releaseTime;
+    private String messageId;
 }

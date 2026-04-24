@@ -21,6 +21,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/user/api/common/*")
                 .addPathPatterns("/user/api/ai/chat")
                 .addPathPatterns("/user/api/ai/chat/*")
+                .addPathPatterns("/user/api/appointment/*")
                 .excludePathPatterns("/user/api/login/*",
                         "/user/api/register",
                         "/user/api/send-code");

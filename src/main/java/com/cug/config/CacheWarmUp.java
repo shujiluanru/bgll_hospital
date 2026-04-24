@@ -7,6 +7,7 @@ import com.cug.mapper.DoctorMapper;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -46,6 +47,11 @@ public class CacheWarmUp {
         );
         log.info("预热完成,共{}条数据",hashMap.size());//TODO新增医生时的处理，到时新增接口直接重新调用Mapper预热
     }
-
+    //定义一个定时任务
+    @Scheduled(cron="0 0 0 * * ?")
+    public void WarmUp()
+    {
+        this.cacheWarm();
+    }
 
 }

@@ -9,6 +9,7 @@ import lombok.NonNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DoctorInfoVO {
+    private Long id;
     private String departmentName;
     private String phone;
     private String email;

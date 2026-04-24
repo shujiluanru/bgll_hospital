@@ -1,6 +1,7 @@
 package com.cug.config;
 
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -52,4 +53,5 @@ public class MQConfig{
         rabbitTemplate.setMessageConverter(messageConverter());
         return rabbitTemplate;
     }
+
 }
