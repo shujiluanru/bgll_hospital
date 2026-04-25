@@ -37,13 +37,14 @@ public class AIChatConfig {
     private String baseUrl;
     @Bean
     @Lazy
-    public ChatClient chatClient(OpenAiChatModel openAiChatModel,VectorStore vectorStore)
+    public ChatClient chatClient(OpenAiChatModel openAiChatModel,VectorStore vectorStore,AIChatTools aiChatTools)
     {
         QuestionAnswerAdvisor build = QuestionAnswerAdvisor.builder(vectorStore)
                 .searchRequest(SearchRequest.builder().topK(4).similarityThreshold(0.7).build())
                 .build();//基于RAG构建Advisor
         return ChatClient.builder(openAiChatModel)
                 .defaultSystem(AIConstant.AI_PROMPT)
+                .defaultTools(aiChatTools)
                 .defaultAdvisors(build)
                 .build();
     }

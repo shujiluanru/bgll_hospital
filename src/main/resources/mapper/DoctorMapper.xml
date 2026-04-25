@@ -4,6 +4,9 @@
     <insert id="addReleaseLog">
         insert into release_log(doctor_id,release_num,release_time) values(#{doctorId},#{releaseNum},#{releaseTime})
     </insert>
+    <insert id="addReservation">
+        insert into reservation(id,doctor_id,user_id,create_time) values(#{id},#{doctorId},#{userId},#{createTime})
+    </insert>
     <update id="updateDescription">
         update doctor set description = #{description} where id = #{id}
     </update>
@@ -26,6 +29,14 @@
                d.password,
                d.description
         from doctor d left join department a on d.department_id = a.id
+    </select>
+    <select id="searchDoctor" resultType="com.cug.domain.vo.DoctorInfoForAI">
+        select d.name,
+               dep.name,
+               d.phone,
+               d.description,
+               d.reservation_resource as resourceNum
+        from doctor d left join department dep on d.department_id = dep.id where d.name like concat('%',#{keyName},'%')
     </select>
 
 </mapper>

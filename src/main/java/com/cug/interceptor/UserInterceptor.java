@@ -7,12 +7,14 @@ import com.cug.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
+@Slf4j
 public class UserInterceptor implements HandlerInterceptor {
     private final JwtUserProperty jwtUserProperty;
     @Autowired
@@ -21,8 +23,12 @@ public class UserInterceptor implements HandlerInterceptor {
     }
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        //从请求头获取 token
-        String[]splits = request.getHeader(jwtUserProperty.getName()).split(" ");
+        String header = request.getHeader(jwtUserProperty.getName());
+        if (header == null) {
+            log.info("请求头没有token");
+            throw new ValidationException("");
+        }
+        String[]splits = header.split(" ");
         String token = splits[1];
         if (token == null) {
             throw new ValidationException("");

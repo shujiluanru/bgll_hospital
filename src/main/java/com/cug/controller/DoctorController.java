@@ -34,4 +34,14 @@ public class DoctorController {
     {
         return doctorService.release(data);
     }
+    @GetMapping("/reservations")
+    public R getReservations()
+    {
+        return doctorService.getReservations();
+    }
+    @PostMapping("/confirm")
+    public R confirmReservation(@RequestBody Map<String,String> data)
+    {
+        return doctorService.confirmReservation(data);
+    }
 }

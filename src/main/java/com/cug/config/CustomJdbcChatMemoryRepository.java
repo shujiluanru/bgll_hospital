@@ -4,6 +4,7 @@ import com.cug.domain.pojo.ChatMemoryEntity;
 import com.cug.mapper.ChatMemoryMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.ai.chat.memory.ChatMemoryRepository;
 import org.springframework.ai.chat.messages.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class CustomJdbcChatMemoryRepository implements ChatMemoryRepository {
     }
 
     @Override
-    public void deleteByConversationId(String conversationId) {
+    public void deleteByConversationId(@NonNull String conversationId) {
         chatMemoryMapper.deleteByConversationId(conversationId);
     }
 

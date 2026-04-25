@@ -58,8 +58,7 @@ public class ChatServiceImpl implements ChatService {
     }
     @Override
     public R chat(UserChatDTO userChatDTO) {
-        String conversationId = userChatMapper.getConversationId(userChatDTO.getUserId());
-        final String finalConversationId=conversationId;
+        String finalConversationId= userChatMapper.getConversationId(userChatDTO.getUserId());
         //交给LLM处理
         String content = chatClient.prompt()
                 .user(userChatDTO.getContent())
@@ -78,9 +77,12 @@ public class ChatServiceImpl implements ChatService {
         // 清除该用户的会话记录，不创建新的id
         //获取该用户的conversation_id
         String conversationId = userChatMapper.getConversationId(userId);
-        if (conversationId != null && !conversationId.isEmpty()) {
+        if (conversationId == null ||conversationId.isEmpty()) {
             conversationId = "conversation_" + userId;
             userChatMapper.insertChatIdForUser(conversationId,userId);
+            //给前端返回一个包含了Assistant初始消息的列表，并插入到数据库中
+            chatMemoryRepository.saveAll(conversationId, List.of(new AssistantMessage(AIConstant.AI_INITIAL_MESSAGE)));
+            return R.ok(List.of(new AIMessageVO("assistant", AIConstant.AI_INITIAL_MESSAGE, System.currentTimeMillis())));
         }
         // 清除该用户的会话记录
         chatMemoryRepository.deleteByConversationId(conversationId);

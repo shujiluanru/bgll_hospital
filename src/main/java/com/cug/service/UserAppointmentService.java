@@ -8,4 +8,8 @@ import java.util.List;
 
 public interface UserAppointmentService {
     R getDoctorList();
+
+    R getResources();
+
+    R grab(Long doctorId);
 }

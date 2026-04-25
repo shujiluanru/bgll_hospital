@@ -5,4 +5,6 @@ import com.cug.domain.pojo.R;
 
 public interface UserService {
     R updateUserInfo(UserInfoDTO userInfoDTO);
+
+    R getReservations();
 }

@@ -1,35 +1,49 @@
 spring:
   application:
     name: bgll_hospital
-  profiles:
-    active: dev
   datasource:
-    driver-class-name: ${mysql.driver-class-name}
-    url: ${mysql.url}
-    username: ${mysql.username}
-    password: ${mysql.password}
+    driver-class-name: ${mysql_driver_class_name}
+    url: ${mysql_url}
+    username: ${mysql_username}
+    password: ${mysql_password}
   data:
     redis:
-      host: ${redis.host}
-      port: ${redis.port}
-      password: ${redis.password}
+      host: ${redis_host}
+      port: ${redis_port}
+      password: ${redis_password}
   rabbitmq:
-    password: ${rabbitmq.password}
-    username: ${rabbitmq.username}
-    host: ${rabbitmq.host}
-    port: ${rabbitmq.port}
+    password: ${rabbitmq_password}
+    username: ${rabbitmq_username}
+    host: ${rabbitmq_host}
+    port: ${rabbitmq_port}
+    publisher-confirm-type: correlated  # 开启确认机制
+    publisher-returns: true              # 开启消息返回
+    template:
+      mandatory: true                    # 启用强制消息投递
+    listener:
+      simple:
+        acknowledge-mode: manual   # 关键：手动确认模式
+        retry:
+          enabled: false           # 关闭自动重试，由我们自己控制
+        default-requeue-rejected: false  # 拒绝后不重新入队，进死信队列
+        prefetch: 1               # 每次只取1条消息，避免堆积在本地
   ai:
     openai:
-      api-key: ${openai.api-key}
-      base-url: ${openai.base-url}
+      api-key: ${openai_api_key}
+      base-url: ${openai_base_url}
       chat:
         options:
-          model: ${openai.chat.model}
-          temperature: ${openai.chat.temperature}
+          model: ${openai_chat_model}
+          temperature: ${openai_chat_temperature}
       embedding:
         options:
-          model: ${openai.embedding.model}
-          dimensions: ${openai.embedding.dimensions}
+          model: ${openai_embedding_model}
+          dimensions: ${openai_embedding_dimensions}
+    chat:
+      memory:
+        repository:
+          jdbc:
+            initialize-schema: never # 已经手动建表
 server:
   address: 0.0.0.0
 mybatis:
@@ -40,17 +54,17 @@ mybatis:
 
 bgll:
   sms:
-    host: ${sms.host}
-    path: ${sms.path}
-    templateId: ${sms.templateId}
-    appcode: ${sms.appcode}
+    host: ${sms_host}
+    path: ${sms_path}
+    templateId: ${sms_templateId}
+    appcode: ${sms_appcode}
 
   jwt:
     user:
-      name: ${jwt.user.name}
-      secret: ${jwt.user.secret}
-      expiration: ${jwt.user.expiration}
+      name: ${jwt_user_name}
+      secret: ${jwt_user_secret}
+      expiration: ${jwt_user_expiration}
     doctor:
-      name: ${jwt.doctor.name}
-      secret: ${jwt.doctor.secret}
-      expiration: ${jwt.doctor.expiration}
+      name: ${jwt_doctor_name}
+      secret: ${jwt_doctor_secret}
+      expiration: ${jwt_doctor_expiration}

@@ -2,9 +2,9 @@ package com.cug.controller;
 
 import com.cug.domain.pojo.R;
 import com.cug.service.UserAppointmentService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user/api/appointment")
@@ -18,5 +18,18 @@ public class UserAppointmentController {
     {
         return userAppointmentService.getDoctorList();
     }
+    @GetMapping("/resources")
+    public R getResources()
+    {
+        return userAppointmentService.getResources();
+    }
+    @PostMapping("/grab")
+    public R grab(@RequestBody Map<String,String> data)
+    {
+        Long doctorId = Long.parseLong(data.get("doctorId"));
+        return userAppointmentService.grab(doctorId);
+    }
+
+
 
 }

@@ -23,8 +23,14 @@ public class DoctorInterceptor implements HandlerInterceptor {
     }
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        //静态资源放行
         //从请求头获取 token
-        String[]splits = request.getHeader(jwtDoctorProperty.getName()).split(" ");
+        String header = request.getHeader(jwtDoctorProperty.getName());
+        if (header == null) {
+            log.info("请求头没有token");
+            throw new ValidationException("");
+        }
+        String[]splits = header.split(" ");
         String token = splits[1];
         log.info("拦截请求DoctorInterceptor");
         if (token == null) {

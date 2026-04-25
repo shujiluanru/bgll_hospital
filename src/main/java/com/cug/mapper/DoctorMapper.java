@@ -1,10 +1,9 @@
 package com.cug.mapper;
 
-import com.cug.domain.pojo.Doctor;
-import com.cug.domain.pojo.ReleaseMessage;
-import com.cug.domain.pojo.ReservationResourceData;
+import com.cug.domain.pojo.*;
+import com.cug.domain.vo.DoctorInfoForAI;
+import com.cug.domain.vo.ReservationForDoctorVO;
 import org.apache.ibatis.annotations.Mapper;
-import com.cug.domain.pojo.ReleaseLog;
 
 import java.util.List;
 import java.util.Map;
@@ -20,4 +19,8 @@ public interface DoctorMapper {
     void addReleaseLog(ReleaseMessage releaseMessage);
 
     List<Doctor> getDoctorList();
+
+    void addReservation(Reservation reservation);
+
+    List<DoctorInfoForAI> searchDoctor(String keyName);
 }
